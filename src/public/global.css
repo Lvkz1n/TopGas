@@ -1,0 +1,352 @@
+/* ====== ESTILOS GLOBAIS ====== */
+
+/* Links do menu lateral */
+nav a {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  border-radius: 8px;
+  color: #4b5563;
+  transition: background 0.3s;
+}
+nav a:hover {
+  background-color: #f3f4f6;
+}
+
+/* Link ativo */
+.menu-item-active {
+  background-color: #fff7ed;
+  color: #ff8e44;
+  font-weight: 500;
+}
+
+/* Botão dark mode */
+.btn-dark-mode {
+  padding: 8px;
+  border-radius: 8px;
+  background-color: #f3f4f6;
+  color: #4b5563;
+  transition: background 0.3s;
+}
+.btn-dark-mode:hover {
+  background-color: #e5e7eb;
+}
+
+/* Cards de métricas */
+.card-metric {
+  background-color: white;
+  border-radius: 12px;
+  padding: 24px;
+  border: 1px solid #e5e7eb;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.card-metric.green .metric-value {
+  color: #16a34a;
+}
+.card-metric.blue .metric-value {
+  color: #2563eb;
+}
+.card-metric.red .metric-value {
+  color: #dc2626;
+}
+
+.metric-title {
+  font-size: 14px;
+  color: #6b7280;
+}
+.metric-value {
+  font-size: 24px;
+  font-weight: bold;
+}
+.metric-change {
+  font-size: 14px;
+}
+.metric-change.positive {
+  color: #16a34a;
+}
+.metric-change.negative {
+  color: #dc2626;
+}
+
+.metric-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.metric-icon.green {
+  background-color: #dcfce7;
+}
+.metric-icon.blue {
+  background-color: #dbeafe;
+}
+.metric-icon.red {
+  background-color: #fee2e2;
+}
+
+/* Cartões de gráficos e listas */
+.card-chart,
+.card-list {
+  background-color: white;
+  border-radius: 12px;
+  padding: 24px;
+  border: 1px solid #e5e7eb;
+}
+.card-chart h3,
+.card-list h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: #111827;
+}
+
+/* ================================
+   LISTAS: Melhores Clientes / Entregadores
+   ================================= */
+/* Item padrão de lista (nome à esquerda, valor/quantidade à direita) */
+.list-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 16px;
+  border-radius: 10px;
+  border: 1px solid #e5e7eb;
+  background: #ffffff;
+}
+
+/* Variações de cor (fundo suave + borda) */
+.list-item.blue {
+  background: #eff6ff;
+  border-color: #dbeafe;
+} /* blue-50 / blue-200 */
+.list-item.green {
+  background: #ecfdf5;
+  border-color: #bbf7d0;
+} /* green-50 / green-200 */
+.list-item.purple {
+  background: #f3e8ff;
+  border-color: #e9d5ff;
+} /* purple-50 / purple-200 */
+.list-item.yellow {
+  background: #fef3c7;
+  border-color: #fde68a;
+} /* amber-100 / amber-300 */
+.list-item.orange {
+  background: #ffedd5;
+  border-color: #fed7aa;
+} /* orange-100 / orange-200 */
+.list-item.teal {
+  background: #f0fdfa;
+  border-color: #99f6e4;
+} /* teal-50 / teal-200 */
+
+/* Tipografia dentro dos itens */
+.list-item span:first-child {
+  font-weight: 500;
+  color: #111827;
+}
+.list-item span:last-child {
+  font-weight: 600;
+  color: #111827;
+}
+
+/* Para "Melhores Clientes": valor em verde no lado direito */
+.list-item.blue span:last-child,
+.list-item.green span:last-child,
+.list-item.purple span:last-child {
+  color: #16a34a; /* green-600 */
+}
+
+/* ==========================================
+   ENTREGAS EM ANDAMENTO (status com "chip")
+   ========================================== */
+.status-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 16px 12px 36px; /* espaço pro ponto colorido */
+  border-radius: 10px;
+  border: 1px solid #e5e7eb;
+  background: #ffffff;
+}
+
+/* Ponto de status à esquerda */
+.status-item::before {
+  content: "";
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 10px;
+  height: 10px;
+  border-radius: 9999px;
+}
+
+/* Variações de status */
+.status-item.yellow {
+  background: #fffbeb;
+  border-color: #fde68a;
+} /* amber-50 / amber-300 */
+.status-item.yellow::before {
+  background: #f59e0b;
+} /* amber-500 */
+
+.status-item.green {
+  background: #ecfdf5;
+  border-color: #bbf7d0;
+} /* green-50 / green-200 */
+.status-item.green::before {
+  background: #10b981;
+} /* emerald-500 */
+
+/* "Chip" do status (texto à direita) */
+.status-item span:last-child {
+  font-size: 12px;
+  padding: 4px 8px;
+  border-radius: 9999px;
+  font-weight: 600;
+}
+.status-item.yellow span:last-child {
+  background: #fef3c7; /* amber-100 */
+  color: #a16207; /* amber-700 */
+}
+.status-item.green span:last-child {
+  background: #d1fae5; /* emerald-100 */
+  color: #065f46; /* emerald-800 */
+}
+
+/* ======================
+   Suporte ao Dark Mode
+   ====================== */
+.dark .card-chart,
+.dark .card-list {
+  background-color: #1f2937; /* gray-800 */
+  border-color: #374151; /* gray-700 */
+}
+.dark .card-chart h3,
+.dark .card-list h3 {
+  color: #ffffff;
+}
+
+.dark .list-item,
+.dark .status-item {
+  border-color: #374151;
+  color: #e5e7eb;
+}
+
+/* Tintas suaves no escuro (usando alpha) */
+.dark .list-item.blue {
+  background: rgba(29, 78, 216, 0.15);
+} /* blue-700 */
+.dark .list-item.green {
+  background: rgba(22, 163, 74, 0.15);
+} /* green-600 */
+.dark .list-item.purple {
+  background: rgba(126, 34, 206, 0.15);
+} /* purple-700 */
+.dark .list-item.yellow {
+  background: rgba(245, 158, 11, 0.15);
+} /* amber-500 */
+.dark .list-item.orange {
+  background: rgba(194, 65, 12, 0.15);
+} /* orange-700 */
+.dark .list-item.teal {
+  background: rgba(15, 118, 110, 0.15);
+} /* teal-700 */
+
+.dark .status-item.yellow {
+  background: rgba(245, 158, 11, 0.15);
+}
+.dark .status-item.green {
+  background: rgba(5, 150, 105, 0.15);
+}
+
+.dark .status-item span:last-child {
+  filter: brightness(0.95);
+}
+
+/* Sidebar: links e hover no dark */
+.dark nav a {
+  color: #d1d5db; /* gray-300 */
+  transition: background 0.3s, color 0.3s;
+}
+.dark nav a:hover {
+  background-color: #374151; /* gray-700 */
+  color: #f3f4f6; /* gray-100 */
+}
+
+/* Link ativo no dark (não deixar fundo claro) */
+.dark .menu-item-active {
+  background-color: rgba(255, 142, 68, 0.14); /* laranja suave */
+  color: #ffd7b2; /* laranja claro p/ texto */
+  font-weight: 600;
+}
+
+/* Botão do dark mode no dark (antes ficava claro) */
+.dark .btn-dark-mode {
+  background-color: #374151; /* gray-700 */
+  color: #e5e7eb; /* gray-200 */
+}
+.dark .btn-dark-mode:hover {
+  background-color: #4b5563; /* gray-600 */
+}
+
+/* Cards de métricas no dark (os 3 cards do topo) */
+.dark .card-metric {
+  background-color: #1f2937; /* gray-800 */
+  border-color: #374151; /* gray-700 */
+}
+.dark .metric-title {
+  color: #9ca3af; /* gray-400 */
+}
+.dark .metric-value {
+  color: #f9fafb; /* branco padrão quando não houver cor específica */
+}
+.dark .metric-change.positive {
+  color: #34d399;
+} /* emerald-400 */
+.dark .metric-change.negative {
+  color: #f87171;
+} /* red-400 */
+
+/* Ícones dos cards no dark – tirar os fundos muito claros */
+.dark .metric-icon.green {
+  background-color: rgba(16, 185, 129, 0.18);
+} /* emerald-500 */
+.dark .metric-icon.blue {
+  background-color: rgba(59, 130, 246, 0.18);
+} /* blue-500 */
+.dark .metric-icon.red {
+  background-color: rgba(239, 68, 68, 0.18);
+} /* red-500 */
+
+/* Listas e status: evitar texto preto no dark (regra anterior era mais específica) */
+.dark .list-item span:first-child,
+.dark .list-item span:last-child {
+  color: #e5e7eb; /* cinza claro padrão no dark */
+}
+
+/* Mantém o valor “verde” dos Melhores Clientes no dark */
+.dark .list-item.blue span:last-child,
+.dark .list-item.green span:last-child,
+.dark .list-item.purple span:last-child {
+  color: #22c55e; /* green-500/emerald-500 */
+}
+
+/* Chips de status no dark: melhorar contraste do texto */
+.dark .status-item span:first-child {
+  color: #e5e7eb;
+}
+.dark .status-item.yellow span:last-child {
+  color: #f59e0b; /* amber-500 */
+}
+.dark .status-item.green span:last-child {
+  color: #10b981; /* emerald-500 */
+}

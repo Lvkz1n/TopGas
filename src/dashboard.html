@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard - Top Gas</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Chart.js para gráficos -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Ícones Font Awesome -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
+
+    <!-- CSS Global -->
+    <link rel="stylesheet" href="./public/global.css" />
+
+    <!-- Configuração do Tailwind para habilitar Dark Mode -->
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+      };
+    </script>
+  </head>
+  <body class="bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
+    <!-- ===== SIDEBAR ===== -->
+    <div
+      id="sidebar"
+      class="fixed inset-y-0 left-0 z-50 w-64 bg-white dark:bg-gray-800 shadow-lg transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out"
+    >
+      <div class="flex flex-col h-full">
+        <!-- Logo -->
+        <div
+          class="flex items-center justify-center p-6 border-b border-gray-200 dark:border-gray-700"
+        >
+          <div class="text-center">
+            <div
+              class="w-12 h-12 bg-[#FF8E44] rounded-full flex items-center justify-center mx-auto mb-2"
+            >
+              <i class="fas fa-fire text-white text-xl"></i>
+            </div>
+            <h1 class="text-xl font-bold text-gray-800 dark:text-white">
+              Top Gas
+            </h1>
+          </div>
+        </div>
+
+        <!-- Menu Navegação -->
+        <nav class="flex-1 px-4 py-6 space-y-2">
+          <a href="#" class="menu-item-active"
+            ><i class="fas fa-chart-bar mr-3"></i>Dashboard</a
+          >
+          <a href="/src/clientes.html"
+            ><i class="fas fa-users mr-3"></i>Clientes</a
+          >
+          <a href="/src/entregas.html"
+            ><i class="fas fa-truck mr-3"></i>Entregas</a
+          >
+          <a href="/src/users.html"
+            ><i class="fas fa-user-friends mr-3"></i>Usuários</a
+          >
+          <a href="/src/config.html"
+            ><i class="fas fa-cog mr-3"></i>Configurações</a
+          >
+        </nav>
+
+        <!-- Rodapé -->
+        <div class="p-4 border-t border-gray-200 dark:border-gray-700">
+          <p class="text-xs text-gray-500 dark:text-gray-400 text-center">
+            © 2024 Top Gas<br />Todos os direitos reservados
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== CONTEÚDO PRINCIPAL ===== -->
+    <div class="lg:ml-64">
+      <!-- Cabeçalho -->
+      <header
+        class="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700"
+      >
+        <div class="flex items-center justify-between px-6 py-4">
+          <div class="flex items-center">
+            <!-- Botão para abrir sidebar no mobile -->
+            <button
+              class="lg:hidden mr-4 text-gray-600 dark:text-gray-300"
+              onclick="toggleSidebar()"
+            >
+              <i class="fas fa-bars text-xl"></i>
+            </button>
+            <h2 class="text-2xl font-bold text-gray-800 dark:text-white">
+              Dashboard
+            </h2>
+          </div>
+          <!-- Botão Dark Mode -->
+          <button onclick="toggleDarkMode()" class="btn-dark-mode">
+            <i class="fas fa-moon dark:hidden"></i>
+            <i class="fas fa-sun hidden dark:inline"></i>
+          </button>
+        </div>
+      </header>
+
+      <!-- ===== CONTEÚDO DO DASHBOARD ===== -->
+      <main class="p-6">
+        <!-- Cards de Estatísticas -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+          <!-- Card de Faturamento -->
+          <div class="card-metric green">
+            <div>
+              <p class="metric-title">Faturamento Total</p>
+              <p class="metric-value">R$ 45.280</p>
+              <p class="metric-change positive">+12% este mês</p>
+            </div>
+            <div class="metric-icon green">
+              <i class="fas fa-dollar-sign"></i>
+            </div>
+          </div>
+
+          <!-- Card de Entregas -->
+          <div class="card-metric blue">
+            <div>
+              <p class="metric-title">Total de Entregas</p>
+              <p class="metric-value">1.247</p>
+              <p class="metric-change positive">+8% este mês</p>
+            </div>
+            <div class="metric-icon blue"><i class="fas fa-truck"></i></div>
+          </div>
+
+          <!-- Card de Cancelamentos -->
+          <div class="card-metric red">
+            <div>
+              <p class="metric-title">Cancelamentos</p>
+              <p class="metric-value">23</p>
+              <p class="metric-change negative">-5% este mês</p>
+            </div>
+            <div class="metric-icon red">
+              <i class="fas fa-times-circle"></i>
+            </div>
+          </div>
+        </div>
+
+        <!-- Gráficos e Listas -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+          <!-- Gráfico de Vendas -->
+          <div class="card-chart">
+            <h3>Vendas Semanais</h3>
+            <canvas id="salesChart"></canvas>
+          </div>
+
+          <!-- Melhores Clientes -->
+          <div class="card-list">
+            <h3>Melhores Clientes</h3>
+            <div class="space-y-4">
+              <div class="list-item blue">
+                <span>João Silva</span><span>R$ 2.340</span>
+              </div>
+              <div class="list-item green">
+                <span>Maria Santos</span><span>R$ 1.980</span>
+              </div>
+              <div class="list-item purple">
+                <span>Carlos Oliveira</span><span>R$ 1.670</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Melhores Entregadores e Entregas em Andamento -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <!-- Melhores Entregadores -->
+          <div class="card-list">
+            <h3>Melhores Entregadores</h3>
+            <div class="space-y-4">
+              <div class="list-item yellow">
+                <span>Pedro Costa</span><span>156 entregas</span>
+              </div>
+              <div class="list-item orange">
+                <span>Ana Ferreira</span><span>142 entregas</span>
+              </div>
+              <div class="list-item teal">
+                <span>Lucas Mendes</span><span>128 entregas</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Entregas em Andamento -->
+          <div class="card-list">
+            <h3>Entregas em Andamento</h3>
+            <div class="space-y-4">
+              <div class="status-item yellow">
+                <span>#1248 - Maria Santos</span><span>Preparando</span>
+              </div>
+              <div class="status-item green">
+                <span>#1249 - Carlos Oliveira</span
+                ><span>Saiu para entrega</span>
+              </div>
+              <div class="status-item yellow">
+                <span>#1250 - Ana Costa</span><span>Preparando</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <!-- Overlay Mobile -->
+    <div
+      id="overlay"
+      class="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden hidden"
+      onclick="toggleSidebar()"
+    ></div>
+
+    <!-- Scripts -->
+    <script>
+      // Função Dark Mode
+      function toggleDarkMode() {
+        document.documentElement.classList.toggle("dark");
+        localStorage.setItem(
+          "darkMode",
+          document.documentElement.classList.contains("dark")
+        );
+        updateChartColors();
+      }
+
+      // Carrega preferências do Dark Mode
+      if (localStorage.getItem("darkMode") === "true") {
+        document.documentElement.classList.add("dark");
+      }
+
+      // Função Sidebar
+      function toggleSidebar() {
+        document
+          .getElementById("sidebar")
+          .classList.toggle("-translate-x-full");
+        document.getElementById("overlay").classList.toggle("hidden");
+      }
+
+      // Gráfico de Vendas Semanais
+      const ctx = document.getElementById("salesChart").getContext("2d");
+      const salesChart = new Chart(ctx, {
+        type: "bar",
+        data: {
+          labels: ["Seg", "Ter", "Qua", "Qui", "Sex", "Sáb", "Dom"],
+          datasets: [
+            {
+              label: "Vendas",
+              data: [3200, 4100, 3800, 5200, 4800, 6100, 5500],
+              backgroundColor: "#FF8E44",
+              borderColor: "#E67E22",
+              borderWidth: 1,
+              borderRadius: 6,
+              borderSkipped: false,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              callbacks: {
+                label: (ctx) => "R$ " + ctx.parsed.y.toLocaleString("pt-BR"),
+              },
+            },
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              ticks: {
+                callback: (value) => "R$ " + value.toLocaleString("pt-BR"),
+              },
+            },
+          },
+        },
+      });
+
+      // Atualiza cores do gráfico no Dark Mode
+      function updateChartColors() {
+        const isDark = document.documentElement.classList.contains("dark");
+        salesChart.options.scales.y.grid.color = isDark ? "#374151" : "#E5E7EB";
+        salesChart.options.scales.x.grid.color = isDark ? "#374151" : "#E5E7EB";
+        salesChart.options.scales.y.ticks.color = isDark
+          ? "#9CA3AF"
+          : "#6B7280";
+        salesChart.options.scales.x.ticks.color = isDark
+          ? "#9CA3AF"
+          : "#6B7280";
+        salesChart.update();
+      }
+    </script>
+  </body>
+</html>
