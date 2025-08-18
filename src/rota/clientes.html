@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Top Gás Clientes</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Chart.js para gráficos -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Ícones Font Awesome -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
+
+    <!-- CSS Global -->
+    <link rel="stylesheet" href="/src/public/global.css" />
+
+    <!-- Configuração do Tailwind para habilitar Dark Mode -->
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+      };
+    </script>
+  </head>
+
+  <body class="bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
+    
+    <!-- ===== SIDEBAR ===== -->
+    <div
+      id="sidebar"
+      class="fixed inset-y-0 left-0 z-50 w-64 bg-white dark:bg-gray-800 shadow-lg transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out"
+    >
+      <div class="flex flex-col h-full">
+         
+        <!-- Logo -->
+        <div
+          class="flex items-center justify-center p-6 border-b border-gray-200 dark:border-gray-700"
+        >
+          <div class="text-center">
+            <div
+              class="w-12 h-12 bg-[#FF8E44] rounded-full flex items-center justify-center mx-auto mb-2"
+            >
+              <i class="fas fa-fire text-white text-xl"></i>
+            </div>
+            <h1 class="text-xl font-bold text-gray-800 dark:text-white">
+              Top Gas
+            </h1>
+          </div>
+        </div>
+
+        <!-- Menu Navegação -->
+        <nav class="flex-1 px-4 py-6 space-y-2">
+          <a href="/src/index.html" 
+            ><i class="fas fa-chart-bar mr-3"></i>Dashboard</a
+          >
+          <a href="/src/rota/clientes.html"
+            ><i class="fas fa-users mr-3"></i>Clientes</a
+          >
+          <a href="/src/rota/entregas.html"
+            ><i class="fas fa-truck mr-3"></i>Entregas</a
+          >
+          <a href="/src/rota/users.html"
+            ><i class="fas fa-user-friends mr-3"></i>Usuários</a
+          >
+          <a href="/src/rota/config.html"
+            ><i class="fas fa-cog mr-3"></i>Configurações</a
+          >
+        </nav>
+
+        <!-- Rodapé -->
+        <div class="p-4 border-t border-gray-200 dark:border-gray-700">
+          <p class="text-xs text-gray-500 dark:text-gray-400 text-center">
+            © 2025 Top Gas<br />Todos os direitos reservados
+          </p>
+        </div>
+      </div>
+    </div>
+
+    
+    <!-- ===== CONTEÚDO PRINCIPAL ===== -->
+    <div class="lg:ml-64">
+      <!-- Cabeçalho -->
+      <header
+        class="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700"
+      >
+        <div class="flex items-center justify-between px-6 py-4">
+          <div class="flex items-center">
+
+            <!-- Botão para abrir sidebar no mobile -->
+            <button
+              class="lg:hidden mr-4 text-gray-600 dark:text-gray-300"
+              onclick="toggleSidebar()"
+            >
+              <i class="fas fa-bars text-xl"></i>
+            </button>
+            <h2 class="text-2xl font-bold text-gray-800 dark:text-white">
+              Clientes
+            </h2>
+          </div>
+
+          <!-- Botão Dark Mode -->
+          <button onclick="toggleDarkMode()" class="btn-dark-mode">
+            <i class="fas fa-moon dark:hidden"></i>
+            <i class="fas fa-sun hidden dark:inline"></i>
+          </button>
+        </div>
+      </header>
+
+      <!-- Menu Clientes -->
+       <section>
+         <div class="card-list">
+            <h3>Clientes</h3>
+            <div class="px-4 py-6 space-y-2">
+              <div class="list-item blue">
+                <span>João Silva</span>
+                <span>#</span>
+              </div>
+              <div class="list-item green">
+                <span>Maria Santos</span>
+                <span>#</span>
+              </div>
+              <div class="list-item purple">
+                <span>Carlos Oliveira</span>
+                <span>#</span>
+              </div>
+            </div>
+          </div>
+       </section>
+  </body>
+</html>

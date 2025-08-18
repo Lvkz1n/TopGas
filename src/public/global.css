@@ -350,3 +350,32 @@ nav a:hover {
 .dark .status-item.green span:last-child {
   color: #10b981; /* emerald-500 */
 }
+
+/* HOVER LARANJA NO MENU (LIGHT) */
+nav a:hover:not(.menu-item-active),
+nav a:focus-visible:not(.menu-item-active) {
+  background-color: #fff7ed; /* mesmo fundo do ativo */
+  color: #ff8e44; /* texto/ícone laranja */
+}
+
+/* HOVER LARANJA NO MENU (DARK) */
+.dark nav a:hover:not(.menu-item-active),
+.dark nav a:focus-visible:not(.menu-item-active) {
+  background-color: rgba(255, 142, 68, 0.14); /* laranja suave no dark */
+  color: #ffd7b2; /* laranja claro p/ contraste */
+}
+
+/* Garante que os itens “parados” fiquem sem fundo */
+nav a {
+  background-color: transparent;
+}
+
+/* Mantém o estilo do link ativo como está */
+.menu-item-active {
+  background-color: #fff7ed;
+  color: #ff8e44;
+}
+.dark .menu-item-active {
+  background-color: rgba(255, 142, 68, 0.14);
+  color: #ffd7b2;
+}
