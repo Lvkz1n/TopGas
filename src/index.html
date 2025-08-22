@@ -18,7 +18,7 @@
     />
 
     <!-- CSS Global -->
-    <link rel="stylesheet" href="./public/global.css" />
+    <link rel="stylesheet" href="/src/public/global.css" />
 
     <!-- Configuração do Tailwind para habilitar Dark Mode -->
     <script>
@@ -106,27 +106,179 @@
       </header>
 
       <!-- ===== CONTEÚDO DO DASHBOARD ===== -->
-      <main class="p-6">
-        <!-- Cards de Estatísticas -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <!-- Card de Faturamento -->
-          <div class="card-metric green">
+
+      <!-- Barra de ações -->
+      <div class="relative mb-4 flex flex-wrap items-center gap-3">
+        <button
+          id="btn-abrir-filtro"
+          class="px-3 py-1 rounded bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600"
+        >
+          Filtrar período
+        </button>
+
+        <button
+          id="btn-editar-manual"
+          class="px-3 py-1 rounded bg-orange-500 text-white hover:bg-orange-600"
+        >
+          Preencher manualmente
+        </button>
+
+        <button
+          id="btn-usar-sistema"
+          class="px-3 py-1 rounded bg-emerald-600 text-white hover:bg-emerald-700 hidden"
+        >
+          Usar dados do sistema
+        </button>
+
+        <!-- Popover de filtros -->
+        <div
+          id="filtro-popover"
+          class="hidden absolute top-full left-0 mt-2 w-[min(92vw,540px)] z-50 bg-white dark:bg-gray-800 border dark:border-gray-700 rounded-xl shadow-lg p-4"
+        >
+          <div class="flex flex-wrap items-center gap-3">
+            <label class="text-sm text-gray-600 dark:text-gray-300"
+              >Início</label
+            >
+            <input
+              id="dt-inicio"
+              type="date"
+              class="border rounded px-2 py-1 dark:bg-gray-900 dark:border-gray-700"
+            />
+            <label class="text-sm text-gray-600 dark:text-gray-300">Fim</label>
+            <input
+              id="dt-fim"
+              type="date"
+              class="border rounded px-2 py-1 dark:bg-gray-900 dark:border-gray-700"
+            />
+          </div>
+          <div class="mt-4 flex justify-end gap-2">
+            <button
+              id="btn-cancelar-filtro"
+              class="px-3 py-1 rounded bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600"
+            >
+              Cancelar
+            </button>
+            <button
+              id="btn-aplicar-filtro"
+              class="px-3 py-1 rounded bg-blue-600 text-white hover:bg-blue-700"
+            >
+              Aplicar
+            </button>
+          </div>
+        </div>
+      </div>
+      <!-- Modal Manual -->
+      <div
+        id="manual-modal"
+        class="fixed inset-0 z-[60] hidden items-center justify-center"
+      >
+        <div id="manual-overlay" class="absolute inset-0 bg-black/50"></div>
+
+        <div
+          class="relative w-[min(92vw,680px)] max-h-[90vh] overflow-auto bg-white dark:bg-gray-800 rounded-xl shadow-2xl p-5"
+        >
+          <h3 class="text-lg font-semibold mb-4">
+            Preencher dados manualmente
+          </h3>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
             <div>
-              <p class="metric-title">Faturamento Total</p>
-              <p class="metric-value">R$ 45.280</p>
-              <p class="metric-change positive">+12% este mês</p>
+              <label class="block text-sm mb-1">Total de Entregas</label>
+              <input
+                id="m-total"
+                type="number"
+                min="0"
+                class="w-full border rounded px-2 py-1 dark:bg-gray-900 dark:border-gray-700"
+              />
             </div>
-            <div class="metric-icon green">
-              <i class="fas fa-dollar-sign"></i>
+            <div>
+              <label class="block text-sm mb-1">Entregas Finalizadas</label>
+              <input
+                id="m-finalizadas"
+                type="number"
+                min="0"
+                class="w-full border rounded px-2 py-1 dark:bg-gray-900 dark:border-gray-700"
+              />
+            </div>
+            <div>
+              <label class="block text-sm mb-1">Canceladas</label>
+              <input
+                id="m-canceladas"
+                type="number"
+                min="0"
+                class="w-full border rounded px-2 py-1 dark:bg-gray-900 dark:border-gray-700"
+              />
             </div>
           </div>
 
-          <!-- Card de Entregas -->
+          <h4 class="text-sm font-medium mt-2 mb-2">Entregas por Região</h4>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div>
+              <label class="block text-sm mb-1">Ipojuca</label>
+              <input
+                id="m-ipojuca"
+                type="number"
+                min="0"
+                class="w-full border rounded px-2 py-1 dark:bg-gray-900 dark:border-gray-700"
+              />
+            </div>
+            <div>
+              <label class="block text-sm mb-1">Pontezinha</label>
+              <input
+                id="m-pontezinha"
+                type="number"
+                min="0"
+                class="w-full border rounded px-2 py-1 dark:bg-gray-900 dark:border-gray-700"
+              />
+            </div>
+            <div>
+              <label class="block text-sm mb-1">San Martin</label>
+              <input
+                id="m-sanmartin"
+                type="number"
+                min="0"
+                class="w-full border rounded px-2 py-1 dark:bg-gray-900 dark:border-gray-700"
+              />
+            </div>
+          </div>
+
+          <div class="mt-5 flex justify-end gap-2">
+            <button
+              id="btn-cancelar-manual"
+              class="px-3 py-1 rounded bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600"
+            >
+              Cancelar
+            </button>
+            <button
+              id="btn-aplicar-manual"
+              class="px-3 py-1 rounded bg-orange-500 text-white hover:bg-orange-600"
+            >
+              Aplicar
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <main class="p-6">
+        <!-- Cards de Estatísticas -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+          <!-- Card de Finalizadas -->
+          <div class="card-metric green">
+            <div>
+              <p class="metric-title">Entregas Finalizadas</p>
+              <p id="val-finalizadas" class="metric-value">0</p>
+              <p id="val-finalizadas-variacao" class="metric-change">--</p>
+            </div>
+            <div class="metric-icon green">
+              <i class="fas fa-circle-check"></i>
+            </div>
+          </div>
+
+          <!-- Card de informacoes -->
           <div class="card-metric blue">
             <div>
               <p class="metric-title">Total de Entregas</p>
-              <p class="metric-value">1.247</p>
-              <p class="metric-change positive">+8% este mês</p>
+              <p id="val-entregas" class="metric-value">0</p>
             </div>
             <div class="metric-icon blue"><i class="fas fa-truck"></i></div>
           </div>
@@ -135,8 +287,8 @@
           <div class="card-metric red">
             <div>
               <p class="metric-title">Cancelamentos</p>
-              <p class="metric-value">23</p>
-              <p class="metric-change negative">-5% este mês</p>
+              <p id="val-cancelamentos" class="metric-value">0</p>
+              <p id="val-cancel-variacao" class="metric-change">--</p>
             </div>
             <div class="metric-icon red">
               <i class="fas fa-times-circle"></i>
@@ -147,8 +299,9 @@
         <!-- Gráficos e Listas -->
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
           <!-- Gráfico de Vendas -->
-          <div class="card-chart">
-            <h3>Vendas Semanais</h3>
+          <div class="card-chart h-64">
+            <!-- h-64 ~ 256px -->
+            <h3>Melhores Regioes</h3>
             <canvas id="salesChart"></canvas>
           </div>
 
@@ -156,15 +309,9 @@
           <div class="card-list">
             <h3>Melhores Clientes</h3>
             <div class="space-y-4">
-              <div class="list-item blue">
-                <span>João Silva</span><span>R$ 2.340</span>
-              </div>
-              <div class="list-item green">
-                <span>Maria Santos</span><span>R$ 1.980</span>
-              </div>
-              <div class="list-item purple">
-                <span>Carlos Oliveira</span><span>R$ 1.670</span>
-              </div>
+              <div class="list-item blue"></div>
+              <div class="list-item green"></div>
+              <div class="list-item purple"></div>
             </div>
           </div>
         </div>
@@ -175,15 +322,9 @@
           <div class="card-list">
             <h3>Melhores Entregadores</h3>
             <div class="space-y-4">
-              <div class="list-item yellow">
-                <span>Pedro Costa</span><span>156 entregas</span>
-              </div>
-              <div class="list-item orange">
-                <span>Ana Ferreira</span><span>142 entregas</span>
-              </div>
-              <div class="list-item teal">
-                <span>Lucas Mendes</span><span>128 entregas</span>
-              </div>
+              <div class="list-item yellow"></div>
+              <div class="list-item orange"></div>
+              <div class="list-item teal"></div>
             </div>
           </div>
 
@@ -191,16 +332,9 @@
           <div class="card-list">
             <h3>Entregas em Andamento</h3>
             <div class="space-y-4">
-              <div class="status-item yellow">
-                <span>#1248 - Maria Santos</span><span>Preparando</span>
-              </div>
-              <div class="status-item green">
-                <span>#1249 - Carlos Oliveira</span
-                ><span>Saiu para entrega</span>
-              </div>
-              <div class="status-item yellow">
-                <span>#1250 - Ana Costa</span><span>Preparando</span>
-              </div>
+              <div class="status-item yellow"></div>
+              <div class="status-item green"></div>
+              <div class="status-item yellow"></div>
             </div>
           </div>
         </div>
@@ -216,81 +350,498 @@
 
     <!-- Scripts -->
     <script>
-      // Função Dark Mode
-      function toggleDarkMode() {
-        document.documentElement.classList.toggle("dark");
-        localStorage.setItem(
-          "darkMode",
-          document.documentElement.classList.contains("dark")
+      // ================== CONFIG ==================
+      const ENDPOINTS = {
+        total: "https://SEU-N8N/webhook/entregas_total",
+        finalizadas: "https://SEU-N8N/webhook/entregas_finalizadas",
+        canceladas: "https://SEU-N8N/webhook/entregas_canceladas",
+        regioes: "https://SEU-N8N/webhook/entregas_por_regiao",
+        topClientes: "https://SEU-N8N/webhook/top_clientes?limit=3",
+        topEntregadores: "https://SEU-N8N/webhook/top_entregadores?limit=3",
+        andamento: "https://SEU-N8N/webhook/entregas_andamento?limit=3",
+      };
+      const REGIOES_FIXAS = ["Ipojuca", "Pontezinha", "San Martin"];
+
+      // ================== HELPERS ==================
+      const fmtInt = new Intl.NumberFormat("pt-BR", {
+        maximumFractionDigits: 0,
+      });
+      const palette = [
+        "blue",
+        "green",
+        "purple",
+        "orange",
+        "red",
+        "yellow",
+        "teal",
+      ];
+
+      const pad2 = (n) => String(n).padStart(2, "0");
+      const hojeISO = () => {
+        const d = new Date();
+        return `${d.getFullYear()}-${pad2(d.getMonth() + 1)}-${pad2(
+          d.getDate()
+        )}`;
+      };
+      const primeiroDiaMesISO = () => {
+        const d = new Date();
+        return `${d.getFullYear()}-${pad2(d.getMonth() + 1)}-01`;
+      };
+
+      function withPeriodo(urlBase, inicio, fim) {
+        const u = new URL(urlBase, window.location.origin);
+        u.searchParams.set("inicio", inicio);
+        u.searchParams.set("fim", fim);
+        return u.toString();
+      }
+      function esc(s = "") {
+        return String(s)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#039;");
+      }
+      function badge(el, value, { invert = false, good = 80, bad = 10 } = {}) {
+        if (!el) return;
+        el.classList.remove("positive", "negative", "warning");
+        if (invert) el.classList.add(value <= bad ? "positive" : "negative");
+        else el.classList.add(value >= good ? "positive" : "negative");
+      }
+      function listContainerByTitle(title) {
+        const cards = document.querySelectorAll(".card-list");
+        for (const card of cards) {
+          const h3 = card.querySelector("h3");
+          if (
+            h3 &&
+            h3.textContent.trim().toLowerCase() === title.toLowerCase()
+          ) {
+            return card.querySelector(".space-y-4");
+          }
+        }
+        return null;
+      }
+      const safeNum = (v) => {
+        const n = Number(v);
+        return Number.isFinite(n) && n >= 0 ? n : 0;
+      };
+
+      // ================== DOM ==================
+      const totalEl = document.getElementById("val-entregas");
+      const finEl = document.getElementById("val-finalizadas");
+      const finVarEl = document.getElementById("val-finalizadas-variacao");
+      const canEl = document.getElementById("val-cancelamentos");
+      const canVarEl = document.getElementById("val-cancel-variacao");
+
+      const btnAbrirFiltro = document.getElementById("btn-abrir-filtro");
+      const popFiltro = document.getElementById("filtro-popover");
+      const dtInicio = document.getElementById("dt-inicio");
+      const dtFim = document.getElementById("dt-fim");
+      const btnAplicarFiltro = document.getElementById("btn-aplicar-filtro");
+      const btnCancelarFiltro = document.getElementById("btn-cancelar-filtro");
+
+      const btnEditarManual = document.getElementById("btn-editar-manual");
+      const btnUsarSistema = document.getElementById("btn-usar-sistema");
+      const modalManual = document.getElementById("manual-modal");
+      const overlayManual = document.getElementById("manual-overlay");
+      const btnAplicarManual = document.getElementById("btn-aplicar-manual");
+      const btnCancelarManual = document.getElementById("btn-cancelar-manual");
+
+      const mTotal = document.getElementById("m-total");
+      const mFinalizadas = document.getElementById("m-finalizadas");
+      const mCanceladas = document.getElementById("m-canceladas");
+      const mIpojuca = document.getElementById("m-ipojuca");
+      const mPontezinha = document.getElementById("m-pontezinha");
+      const mSanMartin = document.getElementById("m-sanmartin");
+
+      // ================== ESTADO ==================
+      let regioesChart = null;
+      const lastSnapshot = {
+        metrics: null,
+        regioes: null,
+        clientes: null,
+        entregadores: null,
+        andamento: null,
+      };
+      const controllers = {}; // nome -> AbortController
+
+      // Modo manual
+      const manualState = { ativo: false, data: null };
+      function entrarModoManual(data) {
+        manualState.ativo = true;
+        manualState.data = data;
+        btnUsarSistema?.classList.remove("hidden");
+        aplicarManualNosCardsERegioes(data);
+      }
+      function sairModoManual() {
+        manualState.ativo = false;
+        manualState.data = null;
+        btnUsarSistema?.classList.add("hidden");
+        atualizarTudo(); // volta a puxar do backend
+      }
+
+      // ================== CHART (1 instância por canvas) ==================
+      function ensureRegioesChart() {
+        const canvas = document.getElementById("salesChart");
+        if (!canvas || !window.Chart) return null;
+        const existing = Chart.getChart(canvas);
+        if (existing) return existing;
+        const ctx = canvas.getContext("2d");
+        regioesChart = new Chart(ctx, {
+          type: "bar",
+          data: {
+            labels: [...REGIOES_FIXAS],
+            datasets: [
+              {
+                label: "Entregas",
+                data: [0, 0, 0],
+                borderWidth: 1,
+                borderRadius: 6,
+                borderSkipped: false,
+                backgroundColor: "#3B82F6",
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+              y: {
+                beginAtZero: true,
+                ticks: { callback: (v) => fmtInt.format(v) },
+              },
+            },
+          },
+        });
+        return regioesChart;
+      }
+      function updateRegioesChart(vals) {
+        const ch = ensureRegioesChart();
+        if (!ch) return;
+        // diff simples para evitar repaint desnecessário
+        const same =
+          ch.data.datasets[0].data.length === vals.length &&
+          ch.data.datasets[0].data.every((v, i) => v === vals[i]);
+        if (same) return;
+        ch.data.labels = [...REGIOES_FIXAS];
+        ch.data.datasets[0].data = vals;
+        ch.update();
+      }
+
+      // ================== UI RENDER ==================
+      function renderMetricas(total, finalizadas, canceladas) {
+        const cur = lastSnapshot.metrics || {};
+        if (cur.total !== total && totalEl)
+          totalEl.textContent = fmtInt.format(total);
+        if (cur.finalizadas !== finalizadas && finEl)
+          finEl.textContent = fmtInt.format(finalizadas);
+        if (cur.canceladas !== canceladas && canEl)
+          canEl.textContent = fmtInt.format(canceladas);
+
+        if (total > 0) {
+          const taxaSucesso = Math.round((finalizadas / total) * 100);
+          const taxaCancel = Math.round((canceladas / total) * 100);
+          if (finVarEl) {
+            finVarEl.textContent = `${taxaSucesso}% concluídas`;
+            badge(finVarEl, taxaSucesso, { invert: false, good: 80 });
+          }
+          if (canVarEl) {
+            canVarEl.textContent = `${taxaCancel}% canceladas`;
+            badge(canVarEl, taxaCancel, { invert: true, bad: 10 });
+          }
+        } else {
+          if (finVarEl) finVarEl.textContent = "Sem entregas";
+          if (canVarEl) canVarEl.textContent = "Sem entregas";
+        }
+        lastSnapshot.metrics = { total, finalizadas, canceladas };
+      }
+      function renderList(containerTitle, items, offsetPalette = 0) {
+        const el = listContainerByTitle(containerTitle);
+        if (!el) return;
+        if (!Array.isArray(items) || items.length === 0) {
+          el.innerHTML = '<div class="text-sm text-gray-500">Sem dados</div>';
+          return;
+        }
+        const html = items
+          .slice(0, 3)
+          .map((it, i) => {
+            const cor = palette[(i + offsetPalette) % palette.length];
+            const nome = esc(it.nome ?? it.name ?? "—");
+            const total = fmtInt.format(
+              safeNum(it.total ?? it.pedidos ?? it.valor)
+            );
+            return `<div class="list-item ${cor}"><span>${nome}</span><span>${total}</span></div>`;
+          })
+          .join("");
+        if (el._lastHTML !== html) {
+          el.innerHTML = html;
+          el._lastHTML = html;
+        }
+      }
+      function renderAndamento(items) {
+        const el = listContainerByTitle("Entregas em Andamento");
+        if (!el) return;
+        if (!Array.isArray(items) || items.length === 0) {
+          el.innerHTML = '<div class="text-sm text-gray-500">Sem dados</div>';
+          return;
+        }
+        const html = items
+          .slice(0, 3)
+          .map((it) => {
+            const s = String(it.status || "").toLowerCase();
+            const cor = s.includes("entregue")
+              ? "green"
+              : s.includes("atras") || s.includes("falha")
+              ? "red"
+              : s.includes("rota") || s.includes("saiu") || s.includes("coleta")
+              ? "yellow"
+              : "teal";
+            const id = esc(it.id ?? it.codigo ?? "#");
+            const cli = esc(it.cliente ?? it.nome_cliente ?? "Cliente");
+            const st = esc(it.status ?? "Em andamento");
+            const prev = esc(it.previsao ?? it.eta ?? "");
+            return `<div class="status-item ${cor}"><span>#${id}</span><span>${cli}</span><span>${st}${
+              prev ? " · " + prev : ""
+            }</span></div>`;
+          })
+          .join("");
+        if (el._lastHTML !== html) {
+          el.innerHTML = html;
+          el._lastHTML = html;
+        }
+      }
+
+      // ================== FETCH (com cancelamento) ==================
+      function abortPrev(name) {
+        if (controllers[name]) controllers[name].abort();
+        controllers[name] = new AbortController();
+        return controllers[name].signal;
+      }
+      async function getJSON(name, url) {
+        const signal = abortPrev(name);
+        const r = await fetch(url, { cache: "no-store", signal });
+        if (!r.ok) throw new Error(`HTTP ${r.status} @ ${url}`);
+        return r.json();
+      }
+
+      // ================== PIPELINES ==================
+      async function carregarMetricas(inicio, fim) {
+        if (manualState.ativo) return; // em modo manual não busca
+        // estado visual
+        [totalEl, finEl, finVarEl, canEl, canVarEl].forEach(
+          (el) => el && (el.textContent = "...")
         );
-        updateChartColors();
+        try {
+          const [dTotal, dFin, dCan] = await Promise.all([
+            getJSON("total", withPeriodo(ENDPOINTS.total, inicio, fim)),
+            getJSON(
+              "finalizadas",
+              withPeriodo(ENDPOINTS.finalizadas, inicio, fim)
+            ),
+            getJSON(
+              "canceladas",
+              withPeriodo(ENDPOINTS.canceladas, inicio, fim)
+            ),
+          ]);
+          const total = safeNum(dTotal.total_entregas ?? dTotal.total);
+          const finalizadas = Math.min(safeNum(dFin.finalizadas), total);
+          const canceladas = Math.min(safeNum(dCan.canceladas), total);
+          renderMetricas(total, finalizadas, canceladas);
+        } catch (e) {
+          console.error(e);
+          if (totalEl) totalEl.textContent = "...";
+          if (finEl) finEl.textContent = "...";
+          if (finVarEl) finVarEl.textContent = "Erro ao carregar";
+          if (canEl) canEl.textContent = "...";
+          if (canVarEl) canVarEl.textContent = "Erro ao carregar";
+        }
+      }
+      async function carregarRegioes(inicio, fim) {
+        if (manualState.ativo) return; // modo manual gerencia o gráfico
+        try {
+          const data = await getJSON(
+            "regioes",
+            withPeriodo(ENDPOINTS.regioes, inicio, fim)
+          );
+          // esperado: {regioes:[{nome,total},...]}
+          const map = new Map();
+          (data.regioes || []).forEach((r) => {
+            const key = String(r.nome || "")
+              .normalize("NFD")
+              .replace(/[\u0300-\u036f]/g, "")
+              .toLowerCase()
+              .trim();
+            map.set(key, safeNum(r.total));
+          });
+          const vals = REGIOES_FIXAS.map((n) => {
+            const key = n
+              .normalize("NFD")
+              .replace(/[\u0300-\u036f]/g, "")
+              .toLowerCase()
+              .trim();
+            return map.get(key) || 0;
+          });
+          updateRegioesChart(vals);
+        } catch (e) {
+          console.error(e);
+        }
+      }
+      async function carregarTopClientes(inicio, fim) {
+        if (manualState.ativo) return;
+        try {
+          const data = await getJSON(
+            "clientes",
+            withPeriodo(ENDPOINTS.topClientes, inicio, fim)
+          );
+          const lista = Array.isArray(data) ? data : data.clientes || [];
+          renderList("Melhores Clientes", lista, 0);
+        } catch (e) {
+          console.error(e);
+        }
+      }
+      async function carregarTopEntregadores(inicio, fim) {
+        if (manualState.ativo) return;
+        try {
+          const data = await getJSON(
+            "entregadores",
+            withPeriodo(ENDPOINTS.topEntregadores, inicio, fim)
+          );
+          const lista = Array.isArray(data) ? data : data.entregadores || [];
+          renderList("Melhores Entregadores", lista, 3);
+        } catch (e) {
+          console.error(e);
+        }
+      }
+      async function carregarAndamento(inicio, fim) {
+        if (manualState.ativo) return;
+        try {
+          const data = await getJSON(
+            "andamento",
+            withPeriodo(ENDPOINTS.andamento, inicio, fim)
+          );
+          const lista = Array.isArray(data)
+            ? data
+            : data.items || data.entregas || [];
+          renderAndamento(lista);
+        } catch (e) {
+          console.error(e);
+        }
       }
 
-      // Carrega preferências do Dark Mode
-      if (localStorage.getItem("darkMode") === "true") {
-        document.documentElement.classList.add("dark");
+      // Exposta globalmente p/ outros scripts
+      async function atualizarTudo() {
+        // usa valores dos inputs (preenchidos no popover)
+        let inicio = dtInicio?.value || primeiroDiaMesISO();
+        let fim = dtFim?.value || hojeISO();
+        if (inicio > fim) [inicio, fim] = [fim, inicio];
+
+        // Concorrecia otimizada
+        await Promise.allSettled([
+          carregarMetricas(inicio, fim),
+          carregarRegioes(inicio, fim),
+          carregarTopClientes(inicio, fim),
+          carregarTopEntregadores(inicio, fim),
+          carregarAndamento(inicio, fim),
+        ]);
+      }
+      window.atualizarTudo = atualizarTudo;
+
+      // ================== MANUAL (aplica nos cards+gráfico) ==================
+      function aplicarManualNosCardsERegioes({
+        total,
+        finalizadas,
+        canceladas,
+        ipojuca,
+        pontezinha,
+        sanmartin,
+      }) {
+        total = safeNum(total);
+        finalizadas = Math.min(safeNum(finalizadas), total);
+        canceladas = Math.min(safeNum(canceladas), total);
+
+        renderMetricas(total, finalizadas, canceladas);
+        updateRegioesChart([
+          safeNum(ipojuca),
+          safeNum(pontezinha),
+          safeNum(sanmartin),
+        ]);
       }
 
-      // Função Sidebar
-      function toggleSidebar() {
-        document
-          .getElementById("sidebar")
-          .classList.toggle("-translate-x-full");
-        document.getElementById("overlay").classList.toggle("hidden");
+      // ================== UI: POPUP FILTRO & MODAL ==================
+      function openFiltro() {
+        if (!dtInicio.value) dtInicio.value = primeiroDiaMesISO();
+        if (!dtFim.value) dtFim.value = hojeISO();
+        popFiltro.classList.remove("hidden");
+        document.addEventListener("keydown", onEscCloseFiltro, { once: true });
+        setTimeout(() => document.addEventListener("click", onClickAwayFiltro));
+      }
+      function closeFiltro() {
+        popFiltro.classList.add("hidden");
+        document.removeEventListener("click", onClickAwayFiltro);
+      }
+      function onEscCloseFiltro(e) {
+        if (e.key === "Escape") closeFiltro();
+      }
+      function onClickAwayFiltro(e) {
+        if (!popFiltro.contains(e.target) && e.target !== btnAbrirFiltro)
+          closeFiltro();
       }
 
-      // Gráfico de Vendas Semanais
-      const ctx = document.getElementById("salesChart").getContext("2d");
-      const salesChart = new Chart(ctx, {
-        type: "bar",
-        data: {
-          labels: ["Seg", "Ter", "Qua", "Qui", "Sex", "Sáb", "Dom"],
-          datasets: [
-            {
-              label: "Vendas",
-              data: [3200, 4100, 3800, 5200, 4800, 6100, 5500],
-              backgroundColor: "#FF8E44",
-              borderColor: "#E67E22",
-              borderWidth: 1,
-              borderRadius: 6,
-              borderSkipped: false,
-            },
-          ],
-        },
-        options: {
-          responsive: true,
-          plugins: {
-            legend: { display: false },
-            tooltip: {
-              callbacks: {
-                label: (ctx) => "R$ " + ctx.parsed.y.toLocaleString("pt-BR"),
-              },
-            },
-          },
-          scales: {
-            y: {
-              beginAtZero: true,
-              ticks: {
-                callback: (value) => "R$ " + value.toLocaleString("pt-BR"),
-              },
-            },
-          },
-        },
+      btnAbrirFiltro?.addEventListener("click", (e) => {
+        e.stopPropagation();
+        if (popFiltro.classList.contains("hidden")) openFiltro();
+        else closeFiltro();
+      });
+      btnCancelarFiltro?.addEventListener("click", closeFiltro);
+      btnAplicarFiltro?.addEventListener("click", async () => {
+        await atualizarTudo();
+        closeFiltro();
       });
 
-      // Atualiza cores do gráfico no Dark Mode
-      function updateChartColors() {
-        const isDark = document.documentElement.classList.contains("dark");
-        salesChart.options.scales.y.grid.color = isDark ? "#374151" : "#E5E7EB";
-        salesChart.options.scales.x.grid.color = isDark ? "#374151" : "#E5E7EB";
-        salesChart.options.scales.y.ticks.color = isDark
-          ? "#9CA3AF"
-          : "#6B7280";
-        salesChart.options.scales.x.ticks.color = isDark
-          ? "#9CA3AF"
-          : "#6B7280";
-        salesChart.update();
+      // Modal
+      function openManual() {
+        modalManual.classList.remove("hidden");
+        modalManual.classList.add("flex");
+        document.addEventListener("keydown", onEscCloseManual, { once: true });
       }
+      function closeManual() {
+        modalManual.classList.add("hidden");
+        modalManual.classList.remove("flex");
+      }
+      function onEscCloseManual(e) {
+        if (e.key === "Escape") closeManual();
+      }
+
+      overlayManual?.addEventListener("click", closeManual);
+      btnCancelarManual?.addEventListener("click", closeManual);
+      btnEditarManual?.addEventListener("click", openManual);
+      btnUsarSistema?.addEventListener("click", sairModoManual);
+
+      btnAplicarManual?.addEventListener("click", () => {
+        entrarModoManual({
+          total: mTotal.value,
+          finalizadas: mFinalizadas.value,
+          canceladas: mCanceladas.value,
+          ipojuca: mIpojuca.value,
+          pontezinha: mPontezinha.value,
+          sanmartin: mSanMartin.value,
+        });
+        closeManual();
+      });
+
+      // ================== BOOT ==================
+      document.addEventListener("DOMContentLoaded", () => {
+        // defaults para período
+        if (dtInicio) dtInicio.value = primeiroDiaMesISO();
+        if (dtFim) dtFim.value = hojeISO();
+
+        // inicializa chart (evita "infinito" por altura/layout)
+        ensureRegioesChart();
+
+        // primeira carga do backend
+        atualizarTudo();
+      });
     </script>
   </body>
 </html>

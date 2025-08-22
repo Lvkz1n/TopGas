@@ -1,0 +1,40 @@
+Exemplos de respostas (n8n → HTTP Response)
+!======================
+Não esqueça CORS:
+/faturamento_metricas
+{ "faturamento_total": 45280, "variacao_percentual": 12 }
+
+/entregas_metricas
+{ "entregas_total": 1247, "entregas_variacao_percentual": 8 }
+
+/cancelamentos_metricas
+{ "cancelamentos_total": 23, "cancelamentos_variacao_percentual": -5 }
+
+!======================
+No n8n (Grafico)
+A - Agregado no backend (recomendado)
+{
+"vendas_mensais": {
+"labels": ["2024-09","2024-10","2024-11","2024-12","2025-01","2025-02","2025-03","2025-04","2025-05","2025-06","2025-07","2025-08"],
+"values": [ 9100, 10420, 9800, 11200, 8950, 9400, 12010, 13100, 12800, 14230, 15020, 16050 ]
+}
+}
+
+B - Lista diária (o front agrega)
+{
+"vendas_mensais": [
+{ "data": "2025-08-01", "valor": 420 },
+{ "data": "2025-08-02", "valor": 371 }
+]
+}
+
+No HTTP Response do n8n, não esqueça os headers de CORS:
+Access-Control-Allow-Origin: \*
+Content-Type: application/json
+!======================
+
+ajustar para metodo de frota com base em pedidos e regioes
+
+trocar o faturamento por pedidos
+
+e o grafico por total de entregas por unidade
